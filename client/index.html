@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" type="text/css" href="css/custom.css">
     <style>
       body {
         padding-top: 60px;
@@ -50,43 +51,11 @@
   <body>
     
     <div class="container" ng-controller="ChatController">
-      <div class="navbar navbar-fixed-top navbar-inverse">
-        <div class="navbar-inner">
-          <div class="pull-right">
-            <!-- <a href="https://c9.io" class="brand">Cloud9 IDE</a> -->
-          </div>
-        </div>
-      </div>
+      
       <div class="page-header">
-        <h1>Emile</h1>
-      </div>
-      <div class="row">
-        <div class="span3">
-          <ul class="nav nav-list well">
-          <!--  <li class="nav-header">Local Users</li> -->
-            <li ng-repeat="user in roster" ng-bind="user">
-            </li>
-          </ul>
-        </div>
-        <div class="span9">
-          <table class="table table-striped table-bordered">
-            <thead>
-              <tr>
-                
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="msg in messages">
-                
-              </tr>
-            </tbody>
-          </table>
-         <!-- <div class="row controls">
-            <form ng-submit="send()">
-              <div class="span2"><input type="text" class="input-block-level" ng-model="name" ng-change="setName()" placeholder="Your Name"></div>
-              <div class="input-append span7">-->
-              <div id='messagesDiv'></div> 
-     <input type='text' id='messageInput' placeholder='Message'>
+        <h1>Say something...</h1>
+        <h2> <div id='messagesDiv'></div> 
+     <input type='h2'; id='messageInput' placeholder='Message';>
      <script type="text/JavaScript">
 
 // EMILE
@@ -94,10 +63,18 @@
 
       var wordsDataRef = new Firebase('https://luminous-fire-1493.firebaseio.com/Words');
       var metaDataRef = new Firebase('https://luminous-fire-1493.firebaseio.com/Meta');
+      var conversationDataRef = new Firebase('https://luminous-fire-1493.firebaseio.com/Meta/Conversations/'.concat(String(Date.now())));
+      
+      
+      var user = "charlie";
+      conversationDataRef.child('user').set(user);
       $('#messageInput').keypress(function (e) {
         if (e.keyCode == 13) {
           //var name = $('#nameInput').val();
           var enteredLine = $('#messageInput').val();
+        
+          conversationDataRef.child(String(Date.now())).set(user.concat(": ".concat(enteredLine)));
+          
           enteredLine = enteredLine.replace(/[.,-\/#?!$%\^&\*;:{}=\-_`~()]/g,"")
           for (i = 0; i < enteredLine.split(" ").length; i++) {
         
@@ -141,11 +118,9 @@
         $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
       };
     </script>
-              </div>
-            </form>
-          </div>
-        </div>
+              </h2>
       </div>
+      
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/jquery.min.js"></script>
